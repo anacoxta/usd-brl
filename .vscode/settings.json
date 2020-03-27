@@ -6,6 +6,7 @@
     "list.highlightForeground": "#00BCD4",
     "scrollbarSlider.activeBackground": "#00BCD450",
     "editorSuggestWidget.highlightForeground": "#00BCD4",
+    "editorGutter.background": "#27232b",
     "textLink.foreground": "#00BCD4",
     "progressBar.background": "#00BCD4",
     "pickerGroup.foreground": "#00BCD4",
@@ -21,8 +22,9 @@
     "menubar.selectionForeground": "#00BCD4",
     "editor.selectionBackground": "#453f4d",
     "editorSuggestWidget.selectedBackground": "#453f4d",
-    "activityBar.background": "#08342E",
-    "titleBar.activeBackground": "#0C4940",
-    "titleBar.activeForeground": "#F2FDFB"
+    "activityBar.background": "#75a879",
+    "activityBar.foreground": "#000",
+    "titleBar.activeBackground": "#538a66",
+    "titleBar.activeForeground": "#000000"
   }
 }
