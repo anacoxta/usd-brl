@@ -26,12 +26,18 @@ const GlobalStyle = createGlobalStyle`
   
   * {
     box-sizing: border-box;
+    --accent: #0DB14B;
+    --error: #FF0C46;
+    --gray-lighter: #AEB7BF;
+    --gray-light: #6F767D;
+    --gray-medium: #2D3844;
+    --gray-dark: #171C34;
   }
 
   html, body, #root {
     display: flex;
     justify-content: center;
-    background-color: #0DB14B;
+    background-color: var(--accent);
     min-width: 100vw;
     margin: 0;
     padding: 0;
@@ -39,6 +45,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Titillium Web', sans-serif;
     font-size: 1rem;
     font-weight: 400;
+    color: var(--gray-light);
   }
   
   #root {
