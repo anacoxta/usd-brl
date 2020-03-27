@@ -32,6 +32,18 @@ const GlobalStyle = createGlobalStyle`
     --gray-light: #6F767D;
     --gray-medium: #2D3844;
     --gray-dark: #171C34;
+    --Ts10: .625rem;
+    --Ts12: .75rem;
+    --Ts14: .875rem;
+    --Ts16: 1rem;
+    --Ts18: 1.125rem;
+    --Ts20: 1.25rem;
+    --Ts22: 1.375rem;
+    --Ts24: 1.5rem;
+    --Ts26: 1.675rem;
+    --Ts28: 1.75rem;
+    --Ts30: 1.875rem;
+    --Ts32: 2rem;
   }
 
   html, body, #root {

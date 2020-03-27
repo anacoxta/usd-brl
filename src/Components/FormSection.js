@@ -6,9 +6,9 @@ const FormSection = props => {
 };
 
 const StyledFormSection = styled.section`
-  margin: 1.5rem 4rem 4rem 4rem;
+  margin: 1.5rem 3rem 3rem 3rem;
   @media (max-width: 700px) {
-    margin: 1rem 3rem 3rem 3rem;
+    margin: 1rem 2rem 2rem 2rem;
   }
 `;
 

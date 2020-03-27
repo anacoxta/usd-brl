@@ -1,7 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 import Tooltip from "@material-ui/core/Tooltip";
-import { TcGray1, TwSemibold } from "./TypographyHelpers";
+import {
+  TcAccent,
+  TcGray1,
+  TcGray2,
+  TcGray3,
+  TwRegular,
+  TwSemibold,
+  TwBlack,
+  Ts10,
+  Ts12,
+  Ts14,
+  Ts16,
+  Ts18,
+  Ts20,
+  Ts22,
+  Ts24,
+  Ts26,
+  Ts28,
+  Ts30,
+  Ts32,
+} from "./TypographyHelpers";
 
 // RENDER COMPONENTS
 
@@ -9,8 +29,10 @@ const DailyRate = props => {
   return (
     <StyledDailyRate>
       <Text>
-        <TcGray1>Dólar comercial: </TcGray1>
-        USD <TwSemibold>1 = X,XXXX</TwSemibold> BRL
+        <TcGray1>Dólar comercial:</TcGray1>
+        <span>
+          USD <span className="bigger">1 = X,XXXX</span> BRL
+        </span>
       </Text>
       <Tooltip title={"Atualizado em XX/XX/XXXX"} placement="right" arrow>
         <TooltipButton className="btn-tooltip">?</TooltipButton>
@@ -24,17 +46,40 @@ const DailyRate = props => {
 const StyledDailyRate = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr min-content;
-  margin: 1rem 0 1.8rem 0;
+  grid-template-columns: max-content min-content;
+  margin: 1rem 0 1.8rem 1rem;
   align-items: center;
   justify-content: center;
 `;
 
-const Text = styled.span`
+const Text = styled.h3`
   font-weight: 400;
   text-transform: uppercase;
   color: var(--gray-medium);
-  font-size: 1.125rem;
+  font-size: var(--Ts20);
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content;
+  grid-template-rows: min-content min-content;
+  align-items: center;
+  column-gap: 0.3rem;
+  justify-content: center;
+  text-align: center;
+  line-height: var(--Ts26);
+
+  .bigger {
+    font-size: var(--Ts22);
+    font-weight: 600;
+  }
+
+  @media (max-width: 375px) {
+    & {
+      font-size: var(--Ts16);
+      .bigger {
+        font-size: var(--Ts18);
+      }
+    }
+  }
 `;
 
 const TooltipButton = styled.button`
@@ -58,10 +103,6 @@ const TooltipButton = styled.button`
     opacity: 0.8;
     transform: scale(1.08);
     transition: all 200ms ease;
-  }
-
-  NumberInput + & {
-    color: red;
   }
 `;
 
