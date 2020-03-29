@@ -8,7 +8,12 @@ import DailyRate from "./components/DailyRate";
 import Form from "./components/Form";
 import Credits from "./components/Credits";
 
+import useFetcher from "./services/apiFetcher"
+
 const App = () => {
+
+  useFetcher("https://economia.awesomeapi.com.br/all/USiD-BRL");
+
   return (
     <>
       <Container>
