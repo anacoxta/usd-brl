@@ -52,13 +52,13 @@ const Form = props => {
         });
       }
     }
-
   };
   
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit} disabled={props.disabled}>
 
       <StyledTextField
+        disabled={props.disabled}
         required
         type="text"
         id="valueUSD"
@@ -71,8 +71,8 @@ const Form = props => {
           endAdornment: <InputAdornment position="end">USD</InputAdornment>,
         }}
       />
-      <VerticalLine />
-      <Button content="Converter" />
+      <VerticalLine disabled={props.disabled}/>
+      <Button content="Converter" disabled={props.disabled}/>
     </StyledForm>
   );
 };
@@ -86,7 +86,7 @@ const StyledForm = styled.form`
 
 const VerticalLine = styled.div`
   width: 2px;
-  background-color: #00c853;
+  background-color: ${props => props.disabled ? "var(--gray-lighter)" : "var(--accent)"};
   height: 2rem;
   margin: 0;
   z-index: 1;
@@ -127,12 +127,17 @@ const StyledTextField = styled(TextField)`
     background-color: white;
     padding: 0 0.4rem;
   }
-
+  
   .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
   .MuiOutlinedInput-notchedOutline {
     border: 2px solid #00c853;
     border-radius: 0.5rem;
   }
+
+  .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
+    border: 2px solid var(--gray-lighter);
+  }
+
 
   .MuiInputBase-input,
   .MuiInputAdornment-root p {
@@ -145,6 +150,9 @@ const StyledTextField = styled(TextField)`
     @media (max-width: 250px) {
       font-size: 0.875rem;
     }
+  }
+  .MuiOutlinedInput-root.Mui-disabled .MuiInputAdornment-root p {
+    color: var(--gray-lighter);
   }
 `;
 

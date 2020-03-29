@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Button = props => {
   return (
-    <StyledButton value="submit" type="submit">{props.content}</StyledButton>
+    <StyledButton value="submit" type="submit" disabled={props.disabled}>{props.content}</StyledButton>
   )
 }
 
@@ -39,9 +39,9 @@ const StyledButton = styled.button`
     cursor: initial;
     transform: none;
     margin-top: 0;
-    border: 2px solid #00c853;
+    border: 2px solid var(--gray-lighter);
     color: #fefefe;
-    background-color: #b3b3b3;
+    background-color: var(--gray-lighter);
   }
 `;
 
