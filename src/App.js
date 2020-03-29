@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
 
-import Container from "../src/Components/Container";
-import FormSection from "./Components/FormSection";
-import Title from "./Components/Title";
-import Credits from "./Components/Credits";
-import DailyRate from "./Components/DailyRate";
+import Container from "./components/Container";
+import FormSection from "./components/FormSection";
+import Title from "./components/Title";
+import DailyRate from "./components/DailyRate";
+import Form from "./components/Form";
+import Credits from "./components/Credits";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <FormSection>
           <Title />
           <DailyRate />
+          <Form />
         </FormSection>
       </Container>
       <Credits />
