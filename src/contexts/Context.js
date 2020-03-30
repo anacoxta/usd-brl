@@ -1,10 +1,11 @@
-import React, { createContext, useState } from "react";
+import React, { createContext } from "react";
+import useMergeState from "../customHook/useMergeState";
 
 const Context = createContext([{}, () => {}]);
 
 // Single source of truth
 const ContextProvider = props => {
-  const [state, setState] = useState({
+  const [state, setState] = useMergeState({
     isLoading: true,
     error: false,
     exchangeRate: "",
@@ -13,19 +14,19 @@ const ContextProvider = props => {
     valueUSD: "",
     valueBRL: "",
     simpleConversion: true,
+    iofPercentage: 0,
     iofUSD: "",
     iofURL: "",
+    localTaxPercentage: 0,
     localTaxUSD: "",
     localTaxBRL: "",
     totalUSD: "",
-    totalBRL: ""
-  })
+    totalBRL: "",
+  });
 
-  return (
-    <Context.Provider value={[state, setState]}>
-      {props.children}
-    </Context.Provider>
-  )
-}
+  console.log("ENTROU NO CONTEXT PROVIDER");
 
-export {Context, ContextProvider}
+  return <Context.Provider value={[state, setState]}>{props.children}</Context.Provider>;
+};
+
+export { Context, ContextProvider };

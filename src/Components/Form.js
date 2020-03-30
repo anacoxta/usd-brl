@@ -1,16 +1,24 @@
 import React, {useContext} from "react";
 import styled from "styled-components";
-import {Context} from "../contexts/Context";
-
+import { Context } from "../contexts/Context";
+import useMergeState from "../customHook/useMergeState";
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "../components/Button";
 
 const Form = props => {
+  // Local state to be fed by the form
+  const [localState, setLocalState] = useMergeState({
+    valueUSD: "",
+    simpleConversion: true,
+    iofPercentage: 0,
+    localTaxPercentage: 0,
+  });
 
-  const [state, setState] = useContext(Context)
-  console.log("state DailyRate",state);
+  // Access to the global state (through context)
+  const [state, setState] = useContext(Context);
+  console.log("state Form:", state);
 
   const handleChange = e => {
     // Validates input value using regex
@@ -18,40 +26,38 @@ const Form = props => {
       let regExp = /^(\d+(,\d{0,2})?|,?\d{1,2})$/;
       if (!regExp.test(e.target.value)) {
         e.target.value = e.target.value.match(regExp);
-        console.log("state", state);
+        console.log("handleChange → localState:", localState);
       } else {
-        // Updates state
-        setState({
-          ...state,
+        // Updates LOCAL state
+        setLocalState({
+          ...localState,
           [e.target.name]: e.target.value,
         });
-        console.log("state", state);
+        console.log("handleChange → localState:", localState);
       }
     }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+    let stringToNumber;
 
-    // Loops through state object...
-    // If value is a string: converts to number and updates state
-
-    for (let s in state) {
-      console.log("s", state[s]);
-      if (typeof state[s] === "string") {
-        let stringToNumber;
-        if (state[s].indexOf(",") !== -1) stringToNumber = state[s].replace(",", ".");
-        else stringToNumber = state[s];
-
+    // Loops through local state object...
+    for (let s in localState) {
+      if (typeof localState[s] === "string") {
+        // Converts string values to numerical values
+        if (localState[s].indexOf(",") !== -1) stringToNumber = localState[s].replace(",", ".");
+        else stringToNumber = localState[s];
         stringToNumber = parseFloat(stringToNumber);
-        console.log("newValue:", stringToNumber, "typeof:", typeof stringToNumber);
-        setState({
-          ...state,
-          [s]: stringToNumber,
-        });
       }
+
+      // Updates global state (context)
+      if (typeof localState[s] === "string") setState({ [s]: stringToNumber });
+      else setState({ [s]: localState[s] });
     }
   };
+
+  console.log("Form → localState:", localState);
 
   return (
     <StyledForm onSubmit={handleSubmit} disabled={typeof state.error === "object"}>
@@ -63,7 +69,7 @@ const Form = props => {
         name="valueUSD"
         label="Valor a ser convertido"
         variant="outlined"
-        value={state.valueUSD}
+        value={localState.valueUSD}
         onChange={handleChange}
         InputProps={{
           endAdornment: <InputAdornment position="end">USD</InputAdornment>,

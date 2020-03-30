@@ -30,10 +30,10 @@ const useFetcher = url => {
           }
 
       let newDate = day + "/" + month + "/" + year + " " + hh + ":" + mm;
-        setState(state => ({...state, isLoading: false, exchangeRate: excRate, fetchedDate: dateObj, formattedDate: newDate}));
+        setState({isLoading: false, exchangeRate: excRate, fetchedDate: dateObj, formattedDate: newDate});
       })
       .catch((error, state) => {
-        setState(state => ({...state, error: error, isLoading: false}));
+        setState({error: error, isLoading: false})
       })
 
   }, [])
