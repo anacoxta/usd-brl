@@ -12,8 +12,8 @@ const Form = props => {
   const [localState, setLocalState] = useMergeState({
     valueUSD: "",
     simpleConversion: true,
-    iofPercentage: 0,
-    localTaxPercentage: 0,
+    iofPercentage: "",
+    localTaxPercentage: "",
   });
 
   // Access to the global state (through context)
@@ -30,7 +30,6 @@ const Form = props => {
       } else {
         // Updates LOCAL state
         setLocalState({
-          ...localState,
           [e.target.name]: e.target.value,
         });
         console.log("handleChange → localState:", localState);
@@ -44,7 +43,7 @@ const Form = props => {
 
     // Loops through local state object...
     for (let s in localState) {
-      if (typeof localState[s] === "string") {
+      if (typeof localState[s] === "string" && localState[s] !== "") {
         // Converts string values to numerical values
         if (localState[s].indexOf(",") !== -1) stringToNumber = localState[s].replace(",", ".");
         else stringToNumber = localState[s];
@@ -52,15 +51,28 @@ const Form = props => {
       }
 
       // Updates global state (context)
-      if (typeof localState[s] === "string") setState({ [s]: stringToNumber });
+      if (typeof localState[s] === "string" && localState[s] !== "") setState({ [s]: stringToNumber });
       else setState({ [s]: localState[s] });
     }
+
+    // Calculations
+    if (localState.simpleConversion === true) {
+      let valueBRL = state.exchangeRate * localState.valueUSD
+      setState({valueBRL: valueBRL});
+      setLocalState({valueBRL: valueBRL});
+      console.log("valueBRL",valueBRL);
+      console.log("state.valueBRL",state.valueBRL);
+    } else {
+      console.log("complexConversion",);
+    }
+
   };
 
   console.log("Form → localState:", localState);
 
   return (
     <StyledForm onSubmit={handleSubmit} disabled={typeof state.error === "object"}>
+
       <StyledTextField
         disabled={typeof state.error === "object"}
         required
@@ -75,8 +87,28 @@ const Form = props => {
           endAdornment: <InputAdornment position="end">USD</InputAdornment>,
         }}
       />
+
       <VerticalLine disabled={typeof state.error === "object"} />
+
+      <StyledTextField
+        disabled={typeof state.error === "object"}
+        required
+        type="text"
+        id="localTaxPercentage"
+        name="localTaxPercentage"
+        label="Taxas locais sobre a venda"
+        variant="outlined"
+        value={localState.localTaxPercentage}
+        onChange={handleChange}
+        InputProps={{
+          endAdornment: <InputAdornment position="end">%</InputAdornment>,
+        }}
+      />
+
+      <VerticalLine disabled={typeof state.error === "object"} />
+
       <Button content="Converter" disabled={typeof state.error === "object"} />
+
     </StyledForm>
   );
 };
