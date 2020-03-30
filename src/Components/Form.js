@@ -1,32 +1,31 @@
-import React, { useState } from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
+import {Context} from "../contexts/Context";
+
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-
 import Button from "../components/Button";
 
 const Form = props => {
-  const [state, setState] = useState({
-    valueUSD: "",
-    simpleConversion: true,
-  });
+
+  const [state, setState] = useContext(Context)
+  console.log("state DailyRate",state);
 
   const handleChange = e => {
     // Validates input value using regex
     if (typeof e.target.value === "string") {
       let regExp = /^(\d+(,\d{0,2})?|,?\d{1,2})$/;
-  
       if (!regExp.test(e.target.value)) {
-        e.target.value = e.target.value.match(regExp)
-        console.log("state",state);
+        e.target.value = e.target.value.match(regExp);
+        console.log("state", state);
       } else {
         // Updates state
         setState({
           ...state,
           [e.target.name]: e.target.value,
         });
-        console.log("state",state);
+        console.log("state", state);
       }
     }
   };
@@ -38,14 +37,14 @@ const Form = props => {
     // If value is a string: converts to number and updates state
 
     for (let s in state) {
-      console.log("s",state[s]);
+      console.log("s", state[s]);
       if (typeof state[s] === "string") {
         let stringToNumber;
         if (state[s].indexOf(",") !== -1) stringToNumber = state[s].replace(",", ".");
         else stringToNumber = state[s];
-        
-        stringToNumber = parseFloat(stringToNumber)
-        console.log("newValue:",stringToNumber, "typeof:", typeof stringToNumber);
+
+        stringToNumber = parseFloat(stringToNumber);
+        console.log("newValue:", stringToNumber, "typeof:", typeof stringToNumber);
         setState({
           ...state,
           [s]: stringToNumber,
@@ -53,12 +52,11 @@ const Form = props => {
       }
     }
   };
-  
-  return (
-    <StyledForm onSubmit={handleSubmit} disabled={props.disabled}>
 
+  return (
+    <StyledForm onSubmit={handleSubmit} disabled={typeof state.error === "object"}>
       <StyledTextField
-        disabled={props.disabled}
+        disabled={typeof state.error === "object"}
         required
         type="text"
         id="valueUSD"
@@ -71,8 +69,8 @@ const Form = props => {
           endAdornment: <InputAdornment position="end">USD</InputAdornment>,
         }}
       />
-      <VerticalLine disabled={props.disabled}/>
-      <Button content="Converter" disabled={props.disabled}/>
+      <VerticalLine disabled={typeof state.error === "object"} />
+      <Button content="Converter" disabled={typeof state.error === "object"} />
     </StyledForm>
   );
 };
@@ -86,7 +84,7 @@ const StyledForm = styled.form`
 
 const VerticalLine = styled.div`
   width: 2px;
-  background-color: ${props => props.disabled ? "var(--gray-lighter)" : "var(--accent)"};
+  background-color: ${props => (props.disabled ? "var(--gray-lighter)" : "var(--accent)")};
   height: 2rem;
   margin: 0;
   z-index: 1;
@@ -127,7 +125,6 @@ const StyledTextField = styled(TextField)`
     background-color: white;
     padding: 0 0.4rem;
   }
-  
   .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
   .MuiOutlinedInput-notchedOutline {
     border: 2px solid #00c853;
@@ -137,7 +134,6 @@ const StyledTextField = styled(TextField)`
   .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
     border: 2px solid var(--gray-lighter);
   }
-
 
   .MuiInputBase-input,
   .MuiInputAdornment-root p {

@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
 import { createGlobalStyle } from "styled-components";
 
@@ -48,9 +48,9 @@ const GlobalStyle = createGlobalStyle`
 
   html, body, #root {
     display: flex;
-    justify-content: center;
     background-color: var(--accent);
     min-width: 100vw;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -72,7 +72,7 @@ ReactDOM.render(
     <GlobalStyle />
     <App />
   </MuiThemeProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

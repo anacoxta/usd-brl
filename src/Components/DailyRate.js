@@ -1,44 +1,55 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
+import Error from "./Error";
+import {Context} from "../contexts/Context";
+
 import Tooltip from "@material-ui/core/Tooltip";
 import {
-  TcAccent,
   TcGray1,
-  TcGray2,
-  TcGray3,
-  TwRegular,
-  TwSemibold,
-  TwBlack,
-  Ts10,
-  Ts12,
-  Ts14,
-  Ts16,
-  Ts18,
-  Ts20,
-  Ts22,
-  Ts24,
-  Ts26,
-  Ts28,
-  Ts30,
-  Ts32,
+  // TcAccent,
+  // TcGray2,
+  // TcGray3,
+  // TwRegular,
+  // TwSemibold,
+  // TwBlack,
+  // Ts10,
+  // Ts12,
+  // Ts14,
+  // Ts16,
+  // Ts18,
+  // Ts20,
+  // Ts22,
+  // Ts24,
+  // Ts26,
+  // Ts28,
+  // Ts30,
+  // Ts32,
 } from "./TypographyHelpers";
 
 // RENDER COMPONENTS
 
 const DailyRate = props => {
-  return (
-    <StyledDailyRate>
+
+  const [state, setState] = useContext(Context)
+  console.log("state DailyRate",state);
+
+  if (state.error === false) {
+    return <StyledDailyRate>
       <Text>
         <TcGray1>Dólar comercial:</TcGray1>
         <span>
-          USD <span className="bigger">1 = X,XXXX</span> BRL
+          USD <span className="bigger">1 = {state.exchangeRate.toLocaleString()}</span> BRL
         </span>
       </Text>
-      <Tooltip title={"Atualizado em XX/XX/XXXX"} placement="right" arrow>
+      <Tooltip title={"Atualizado em " + state.formattedDate} placement="right" arrow>
         <TooltipButton className="btn-tooltip">?</TooltipButton>
       </Tooltip>
     </StyledDailyRate>
-  );
+
+  } else {
+    return <Error />
+  }
+
 };
 
 // STYLED-COMPONENTS

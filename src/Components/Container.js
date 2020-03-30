@@ -1,9 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
+
+import useFetcher from "../services/apiFetcher";
 
 const Container = props => {
-  return <StyledContainer>{props.children}</StyledContainer>
-}
+  useFetcher("https://economia.awesomeapi.com.br/all/USD-BRL");
+
+  return <StyledContainer>{props.children}</StyledContainer>;
+};
 
 const StyledContainer = styled.div`
   margin: 0 5vw;
@@ -15,6 +19,6 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
-export default Container
+export default Container;
