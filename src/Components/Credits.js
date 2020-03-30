@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
-
-// RENDER COMPONENT
+import {Context} from "../contexts/Context";
 
 const Credits = props => {
-  return (
-    <StyledCredits>
+  const [state, setState] = useContext(Context)
+  console.log("state Container:", state);
+
+  if (state.isLoading) return null;
+  else {
+    return (
+      <StyledCredits>
       <Text>react + material-ui + styled-components</Text>
       <div className="divider"></div>
       <Text>
@@ -13,7 +17,7 @@ const Credits = props => {
         <a href="https://linkedin.com/in/anaeduardo">linkedin</a>
       </Text>
     </StyledCredits>
-  );
+    )}
 };
 
 // STYLED-COMPONENT

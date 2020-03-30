@@ -1,12 +1,18 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
+import {Context} from "../contexts/Context";
 
 import useFetcher from "../services/apiFetcher";
+import Loader from "./Loader";
 
 const Container = props => {
+  const [state, setState] = useContext(Context)
+  console.log("state Container:", state);
+
   useFetcher("https://economia.awesomeapi.com.br/all/USD-BRL");
 
-  return <StyledContainer>{props.children}</StyledContainer>;
+  if (state.isLoading) return <Loader />;
+  else return <StyledContainer>{props.children}</StyledContainer>;
 };
 
 const StyledContainer = styled.div`
