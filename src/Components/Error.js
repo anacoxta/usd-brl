@@ -37,6 +37,7 @@ const StyledError = styled.h3`
       font-size: var(--Ts16);
       flex-direction: column;
     }
+  }
   @media (max-width: 380px) {
     & {
       font-size: var(--Ts14);

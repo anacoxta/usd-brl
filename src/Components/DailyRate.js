@@ -106,7 +106,7 @@ const TooltipButton = styled.button`
   height: 1.5rem;
   border-radius: 1rem;
   padding: 0;
-  margin: 0 0 0 0.4rem;
+  margin: 0 0 0 1rem;
   opacity: 0.6;
   transition: all 200ms ease;
 
