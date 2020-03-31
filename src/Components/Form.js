@@ -9,6 +9,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
+import Tooltip from "@material-ui/core/Tooltip";
 import Button from "../components/Button";
 
 const Form = props => {
@@ -102,7 +103,6 @@ const Form = props => {
 
     // Complex calculations (with taxes)
     else {
-
       if (localTaxPercentage === undefined || localTaxPercentage === "") {
         localTaxPercentage = 0;
       }
@@ -181,34 +181,44 @@ const Form = props => {
 
       {localState.conversionType === "withTax" && (
         <>
-          <StyledTextField
-            disabled={typeof state.error === "object"}
-            type="text"
-            id="localTaxPercentage"
-            name="localTaxPercentage"
-            label="Taxas/Impostos adicionais"
-            variant="outlined"
-            value={localState.localTaxPercentage}
-            onChange={handleChange}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-          />
+          <ItemWithTooltip>
+            <StyledTextField
+              disabled={typeof state.error === "object"}
+              type="text"
+              id="localTaxPercentage"
+              name="localTaxPercentage"
+              label="Taxas/Impostos adicionais"
+              variant="outlined"
+              value={localState.localTaxPercentage}
+              onChange={handleChange}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+              }}
+            />
+            <Tooltip title={"Atenção: Algumas cidades e estados americanos possuem impostos locais que incidem sobre as vendas."} placement="right" arrow aria-hidden="true">
+              <TooltipButton className="btn-tooltip" aria-hidden="true">?</TooltipButton>
+            </Tooltip>
+          </ItemWithTooltip>
 
           <VerticalLine disabled={typeof state.error === "object"} />
 
-          <StyledFormControl component="fieldset">
-            <RadioGroup
-              disabled={typeof state.error === "object"}
-              aria-label="Forma de pagamento"
-              id="paymentType"
-              name="paymentType"
-              value={localState.paymentType}
-              onChange={handleChange}>
-              <StyledFormControlLabel id="cash" value="cash" control={<Radio />} label="Dinheiro" />
-              <StyledFormControlLabel id="creditCard" value="creditCard" control={<Radio />} label="Cartão de crédito" />
-            </RadioGroup>
-          </StyledFormControl>
+          <ItemWithTooltip>
+            <StyledFormControl component="fieldset">
+              <RadioGroup
+                disabled={typeof state.error === "object"}
+                aria-label="Forma de pagamento"
+                id="paymentType"
+                name="paymentType"
+                value={localState.paymentType}
+                onChange={handleChange}>
+                <StyledFormControlLabel id="cash" value="cash" control={<Radio />} label="Dinheiro" />
+                <StyledFormControlLabel id="creditCard" value="creditCard" control={<Radio />} label="Cartão de crédito" />
+              </RadioGroup>
+            </StyledFormControl>
+            <Tooltip title={"A taxa IOF cobrada sobre movimentações em dinheiro é de 1,1%, enquanto as movimentações em cartão de crédito são taxadas em 6,38%"} aria-hidden="true" placement="right" arrow>
+              <TooltipButton className="btn-tooltip" aria-hidden="true">?</TooltipButton>
+            </Tooltip>
+          </ItemWithTooltip>
 
           <VerticalLine />
         </>
@@ -233,6 +243,37 @@ const VerticalLine = styled.div`
   margin: 0;
   z-index: 1;
   align-self: center;
+`;
+
+const ItemWithTooltip = styled.div`
+  display: grid;
+  grid-template-columns: max-content min-content;
+  align-items: center;
+  margin-left: 1.8rem;
+`;
+
+const TooltipButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: 2px solid #6f767d;
+  color: #6f767d;
+  font-size: 1.2rem;
+  font-weight: 400;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+  padding: 0;
+  margin: 0 0 0 0.5rem;
+  opacity: 0.6;
+  transition: all 200ms ease;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.08);
+    transition: all 200ms ease;
+  }
 `;
 
 // Overiding Material-UI (hence the mess)
