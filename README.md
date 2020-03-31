@@ -4,23 +4,22 @@ Projeto desenvolvido em React, usando:
 * [React Hooks](https://pt-br.reactjs.org/docs/hooks-intro.html),
 * [Material-UI](https://material-ui.com/pt/),
 * [Styled-components](https://styled-components.com/),
-* um montão de álcool-gel.
-&nbsp;  
-&nbsp;  
-
+* um montão de álcool-gel.   
+&nbsp;   
+&nbsp;   
+   
 ## Online demo
 
-* hospedado no Glitch
-* hospedado no Zeit Now
-&nbsp;  
-&nbsp;  
-
+* hospedado no Netlify: [https://usd-brl.netlify.com/](https://usd-brl.netlify.com/)   
+&nbsp;   
+&nbsp;   
+   
 ## Requisitos
 
-Para rodar o projeto em sua máquina, é necessário ter [**Node.js**](https://nodejs.org/en/download/) instalado e um **navegador** de sua preferência (fica aqui aquele lembrete amigável que o [Firefox](https://www.mozilla.org/pt-BR/firefox/new/) viola _um pouco menos_ sua privacidade do que o Chrome).
-&nbsp;
-&nbsp;
-
+Para rodar o projeto em sua máquina, é necessário ter [**Node.js**](https://nodejs.org/en/download/) instalado e um **navegador** de sua preferência (fica aqui aquele lembrete amigável que o [Firefox](https://www.mozilla.org/pt-BR/firefox/new/) viola _um pouco menos_ sua privacidade do que o Chrome).   
+&nbsp;   
+&nbsp;   
+   
 ## Instruções
 
 Para rodar o código localmente...
