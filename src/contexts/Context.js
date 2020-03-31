@@ -11,20 +11,7 @@ const ContextProvider = props => {
     exchangeRate: "",
     fetchedDate: "",
     formattedDate: "",
-    valueUSD: "",
-    valueBRL: "",
-    simpleConversion: true,
-    iofPercentage: "",
-    iofUSD: "",
-    iofURL: "",
-    localTaxPercentage: "",
-    localTaxUSD: "",
-    localTaxBRL: "",
-    totalUSD: "",
-    totalBRL: "",
   });
-
-  console.log("ENTROU NO CONTEXT PROVIDER");
 
   return <Context.Provider value={[state, setState]}>{props.children}</Context.Provider>;
 };

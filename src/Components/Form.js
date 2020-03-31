@@ -1,78 +1,149 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../contexts/Context";
 import useMergeState from "../customHook/useMergeState";
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Radio from "@material-ui/core/Radio";
 import Button from "../components/Button";
 
 const Form = props => {
   // Local state to be fed by the form
   const [localState, setLocalState] = useMergeState({
     valueUSD: "",
-    simpleConversion: true,
-    iofPercentage: "",
+    conversionType: "noTax",
+    paymentType: "cash",
     localTaxPercentage: "",
+    iofPercentage: "",
   });
 
   // Access to the global state (through context)
   const [state, setState] = useContext(Context);
-  console.log("state Form:", state);
 
   const handleChange = e => {
-    // Validates input value using regex
-    if (typeof e.target.value === "string") {
+
+    // valueUSD
+    // ——> Validates input value using regex:
+    //     positive numbers with up to two decimal places, separated by a comma
+    if (e.target.name === "valueUSD") {
       let regExp = /^(\d+(,\d{0,2})?|,?\d{1,2})$/;
       if (!regExp.test(e.target.value)) {
         e.target.value = e.target.value.match(regExp);
-        console.log("handleChange → localState:", localState);
       } else {
         // Updates LOCAL state
-        setLocalState({
-          [e.target.name]: e.target.value,
-        });
-        console.log("handleChange → localState:", localState);
+        setLocalState({ [e.target.name]: e.target.value });
       }
+    }
+
+    // localTaxPercentage
+    // ——> Validates input value using regex
+    //     positive numbers from 0 to 100, with up to two decimal places, separated by a comma
+    else if (e.target.name === "localTaxPercentage") {
+      let regExp = /^100(,0{0,2}?)?$|^\d{0,2}(,\d{0,2})?$/;
+      if (!regExp.test(e.target.value)) {
+        e.target.value = e.target.value.match(regExp);
+      } else {
+        // Updates LOCAL state
+        setLocalState({ [e.target.name]: e.target.value });
+      }
+    }
+
+    // conversionType and paymentType
+    // ——> setLocalState
+    else {
+      setLocalState({
+        [e.target.name]: e.target.value,
+      });
     }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    let stringToNumber;
 
-    // Loops through local state object...
+    let iofPercentage;
+    let localTaxPercentage;
+    let valueUSD;
+
+    // Treating data
     for (let s in localState) {
-      if (typeof localState[s] === "string" && localState[s] !== "") {
-        // Converts string values to numerical values
-        if (localState[s].indexOf(",") !== -1) stringToNumber = localState[s].replace(",", ".");
-        else stringToNumber = localState[s];
-        stringToNumber = parseFloat(stringToNumber);
+      // valueUSD & localTaxPercentage:
+      // Converts string values to numerical values & sets global and local states
+      if ((s === "valueUSD" || s === "localTaxPercentage") && typeof localState[s] === "string" && localState[s] !== "") {
+        if (localState[s].indexOf(",") !== -1) localState[s] = localState[s].replace(",", ".");
+        if (s === "localTaxPercentage" && localState[s] === "") localState[s] = 0;
+        localState[s] = parseFloat(localState[s]);
+        setLocalState({ [s]: localState[s] })
+        s === "valueUSD" ? valueUSD = localState[s] : localTaxPercentage = localState[s]
       }
-
-      // Updates global state (context)
-      if (typeof localState[s] === "string" && localState[s] !== "") setState({ [s]: stringToNumber });
-      else setState({ [s]: localState[s] });
+      // paymentType:
+      // Updates iofPercentage variable
+      else if (s === "paymentType") {
+        localState[s] === "cash" ? iofPercentage = 1.1 : iofPercentage = 6.38
+      }
     }
 
-    // Calculations
-    if (localState.simpleConversion === true) {
-      let valueBRL = state.exchangeRate * localState.valueUSD
-      setState({valueBRL: valueBRL});
-      setLocalState({valueBRL: valueBRL});
-      console.log("valueBRL",valueBRL);
-      console.log("state.valueBRL",state.valueBRL);
-    } else {
-      console.log("complexConversion",);
+    // CALCULATIONS
+    // Simple calculation (no taxes)
+    if (localState.conversionType === "noTax") {
+      let valueBRL = state.exchangeRate * valueUSD;
+      setState({
+        // data from the form
+        conversionType: localState.conversionType,
+        localTaxPercentage: localTaxPercentage,
+        iofPercentage: iofPercentage,
+        paymentType: localState.paymentType,
+        valueUSD: valueUSD,
+        // calculated
+        valueBRL: valueBRL,
+      });
+    }
+    
+    // Complex calculations (with taxes)
+    else {
+      let valueBRL = state.exchangeRate * valueUSD;
+      let localTaxUSD = valueUSD * (localTaxPercentage/100);
+      let localTaxBRL = localTaxUSD * state.exchangeRate;
+      let iofUSD = (valueUSD + localTaxUSD) * (iofPercentage/100);
+      let iofBRL = iofUSD * state.exchangeRate;
+      let totalUSD = valueUSD + localTaxUSD + iofUSD;
+      let totalBRL = valueBRL + localTaxBRL + iofBRL;
+      setState({
+        // data from the form
+        conversionType: localState.conversionType,
+        localTaxPercentage: localTaxPercentage,
+        iofPercentage: iofPercentage,
+        paymentType: localState.paymentType,
+        valueUSD: valueUSD,
+        // calculated
+        valueBRL: valueBRL,
+        localTaxUSD: localTaxUSD,
+        localTaxBRL: localTaxBRL,
+        iofUSD: iofUSD,
+        iofBRL: iofBRL,
+        totalUSD: totalUSD,
+        totalBRL: totalBRL
+      });
     }
 
+    // reset the form
+    setLocalState({
+      valueUSD: "",
+      conversionType: "noTax",
+      paymentType: "cash",
+      localTaxPercentage: "",
+      iofPercentage: "",  
+    })
   };
 
   console.log("Form → localState:", localState);
+  console.log("Form → state:", state);
 
   return (
     <StyledForm onSubmit={handleSubmit} disabled={typeof state.error === "object"}>
-
       <StyledTextField
         disabled={typeof state.error === "object"}
         required
@@ -90,9 +161,23 @@ const Form = props => {
 
       <VerticalLine disabled={typeof state.error === "object"} />
 
+      <StyledFormControl component="fieldset">
+        <RadioGroup
+          disabled={typeof state.error === "object"}
+          aria-label="Tipo de conversão"
+          id="conversionType"
+          name="conversionType"
+          value={localState.conversionType}
+          onChange={handleChange}>
+          <StyledFormControlLabel id="noTax" value="noTax" control={<Radio />} label="Conversão simples" />
+          <StyledFormControlLabel id="withTax" value="withTax" control={<Radio />} label="Considerar taxas" />
+        </RadioGroup>
+      </StyledFormControl>
+
+      <VerticalLine />
+
       <StyledTextField
         disabled={typeof state.error === "object"}
-        required
         type="text"
         id="localTaxPercentage"
         name="localTaxPercentage"
@@ -107,8 +192,22 @@ const Form = props => {
 
       <VerticalLine disabled={typeof state.error === "object"} />
 
-      <Button content="Converter" disabled={typeof state.error === "object"} />
+      <StyledFormControl component="fieldset">
+        <RadioGroup
+          disabled={typeof state.error === "object"}
+          aria-label="Forma de pagamento"
+          id="paymentType"
+          name="paymentType"
+          value={localState.paymentType}
+          onChange={handleChange}>
+          <StyledFormControlLabel id="cash" value="cash" control={<Radio />} label="Dinheiro" />
+          <StyledFormControlLabel id="creditCard" value="creditCard" control={<Radio />} label="Cartão de crédito" />
+        </RadioGroup>
+      </StyledFormControl>
 
+      <VerticalLine />
+
+      <Button content="Converter" disabled={typeof state.error === "object"} />
     </StyledForm>
   );
 };
@@ -187,6 +286,43 @@ const StyledTextField = styled(TextField)`
   }
   .MuiOutlinedInput-root.Mui-disabled .MuiInputAdornment-root p {
     color: var(--gray-lighter);
+  }
+`;
+
+const StyledFormControl = styled(FormControl)`
+  .MuiFormGroup-root {
+    border: 2px solid #00c853;
+    border-radius: 0.5rem;
+    margin-right: 0;
+    padding: 0.25rem 1rem;
+  }
+
+  .MuiFormControlLabel-root {
+    margin-right: 0;
+  }
+
+  .MuiFormControlLabel-label {
+    font-size: 1.125rem;
+    font-family: "Titillium Web", sans-serif;
+    @media (max-width: 650px) {
+      font-size: 1rem;
+    }
+    @media (max-width: 250px) {
+      font-size: 0.875rem;
+    }
+  }
+
+  .MuiRadio-colorSecondary.Mui-checked {
+    color: #00c853;
+  }
+`;
+
+const StyledFormControlLabel = styled(FormControlLabel)`
+  color: #00c853;
+  font-family: "Titillium Web", sans-serif;
+
+  .MuiRadio-root {
+    color: #00c853;
   }
 `;
 
