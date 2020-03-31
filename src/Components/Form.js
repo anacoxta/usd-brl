@@ -12,7 +12,10 @@ import Radio from "@material-ui/core/Radio";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "../components/Button";
 
+// COMPONENT LOGIC + RENDER COMPONENT
+
 const Form = props => {
+
   // Local state to be fed by the form
   const [localState, setLocalState] = useMergeState({
     valueUSD: "",
@@ -132,7 +135,7 @@ const Form = props => {
       });
     }
 
-    // reset the form
+    // reset the form afterwards
     setLocalState({
       valueUSD: "",
       conversionType: "noTax",
@@ -141,9 +144,6 @@ const Form = props => {
       iofPercentage: "",
     });
   };
-
-  console.log("Form → localState:", localState);
-  console.log("Form → state:", state);
 
   return (
     <StyledForm onSubmit={handleSubmit} disabled={typeof state.error === "object"}>
@@ -157,15 +157,13 @@ const Form = props => {
         variant="outlined"
         value={localState.valueUSD}
         onChange={handleChange}
-        InputProps={{
-          endAdornment: <InputAdornment position="end">USD</InputAdornment>,
-        }}
+        InputProps={{endAdornment: <InputAdornment position="end">USD</InputAdornment>}}
       />
 
-      <VerticalLine disabled={typeof state.error === "object"} />
+      <VerticalLine disabled={typeof state.error === "object"} className="vertical-line" />
 
-      <StyledFormControl component="fieldset">
-        <RadioGroup
+      <StyledFormControl component="fieldset" disabled={typeof state.error === "object"}>
+        <StyledRadioGroup
           disabled={typeof state.error === "object"}
           aria-label="Tipo de conversão"
           id="conversionType"
@@ -174,10 +172,10 @@ const Form = props => {
           onChange={handleChange}>
           <StyledFormControlLabel id="noTax" value="noTax" control={<Radio />} label="Conversão simples" />
           <StyledFormControlLabel id="withTax" value="withTax" control={<Radio />} label="Considerar taxas" />
-        </RadioGroup>
+        </StyledRadioGroup>
       </StyledFormControl>
 
-      <VerticalLine />
+      <VerticalLine disabled={typeof state.error === "object"} />
 
       {localState.conversionType === "withTax" && (
         <>
@@ -191,11 +189,13 @@ const Form = props => {
               variant="outlined"
               value={localState.localTaxPercentage}
               onChange={handleChange}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">%</InputAdornment>,
-              }}
+              InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}
             />
-            <Tooltip title={"Atenção: Algumas cidades e estados americanos possuem impostos locais que incidem sobre as vendas."} placement="right" arrow aria-hidden="true">
+            <Tooltip
+              title={"Atenção: Algumas cidades e estados americanos possuem impostos locais que incidem sobre as vendas."}
+              placement="right"
+              arrow
+              aria-hidden="true">
               <TooltipButton className="btn-tooltip" aria-hidden="true">?</TooltipButton>
             </Tooltip>
           </ItemWithTooltip>
@@ -215,7 +215,11 @@ const Form = props => {
                 <StyledFormControlLabel id="creditCard" value="creditCard" control={<Radio />} label="Cartão de crédito" />
               </RadioGroup>
             </StyledFormControl>
-            <Tooltip title={"A taxa IOF cobrada sobre movimentações em dinheiro é de 1,1%, enquanto as movimentações em cartão de crédito são taxadas em 6,38%"} aria-hidden="true" placement="right" arrow>
+            <Tooltip
+              title={"A taxa IOF cobrada sobre movimentações em dinheiro é de 1,1%, enquanto as movimentações em cartão de crédito são taxadas em 6,38%"}
+              aria-hidden="true"
+              placement="right"
+              arrow>
               <TooltipButton className="btn-tooltip" aria-hidden="true">?</TooltipButton>
             </Tooltip>
           </ItemWithTooltip>
@@ -228,6 +232,8 @@ const Form = props => {
     </StyledForm>
   );
 };
+
+// STYLED-COMPONENTS
 
 const StyledForm = styled.form`
   display: flex;
@@ -243,6 +249,10 @@ const VerticalLine = styled.div`
   margin: 0;
   z-index: 1;
   align-self: center;
+
+  & + .MuiFormGroup-root {
+    border-color: ${props => (props.disabled ? "var(--gray-lighter)" : "var(--accent)")};
+  }
 `;
 
 const ItemWithTooltip = styled.div`
@@ -277,6 +287,7 @@ const TooltipButton = styled.button`
 `;
 
 // Overiding Material-UI (hence the mess)
+
 const StyledTextField = styled(TextField)`
   background-color: white;
   width: 100%;
@@ -343,10 +354,17 @@ const StyledFormControl = styled(FormControl)`
     border-radius: 0.5rem;
     margin-right: 0;
     padding: 0.25rem 1rem;
-  }
+  } 
 
   .MuiFormControlLabel-root {
     margin-right: 0;
+  }
+
+  .MuiButtonBase-root.Mui-disabled {
+    color: var(--gray-lighter);
+    .MuiIconButton-label {
+    color: var(--gray-lighter);
+    }
   }
 
   .MuiFormControlLabel-label {
@@ -364,6 +382,10 @@ const StyledFormControl = styled(FormControl)`
     color: #00c853;
   }
 `;
+
+const StyledRadioGroup = styled(RadioGroup)`
+  border-color: ${props => props.disabled ? "var(--gray-lighter)" : "var(--accent)"} !important;
+`
 
 const StyledFormControlLabel = styled(FormControlLabel)`
   color: #00c853;

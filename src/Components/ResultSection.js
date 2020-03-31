@@ -1,27 +1,9 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../contexts/Context";
-import {
-  TcGray1,
-  TcAccent,
-  TcGray2,
-  TcGray3,
-  TwRegular,
-  TwSemibold,
-  TwBlack,
-  Ts10,
-  Ts12,
-  Ts14,
-  Ts16,
-  Ts18,
-  Ts20,
-  Ts22,
-  Ts24,
-  Ts26,
-  Ts28,
-  Ts30,
-  Ts32,
-} from "./TypographyHelpers";
+import { TcGray1, TcAccent, TcGray3, TwRegular, TwSemibold } from "./TypographyHelpers";
+
+// RENDER COMPONENT
 
 const ResultSection = props => {
   // To use with .toLocaleString()
@@ -124,7 +106,11 @@ const ResultSection = props => {
                     </TcGray3>
                   </div>
                   <div>
-                    <TcGray1 className="small">taxa<br />adic.</TcGray1>
+                    <TcGray1 className="small">
+                      taxa
+                      <br />
+                      adic.
+                    </TcGray1>
                   </div>
                 </div>
                 <div className="divider"></div>
@@ -136,7 +122,11 @@ const ResultSection = props => {
                     </TcGray3>
                   </div>
                   <div>
-                    <TcGray1 className="small">IOF<br />{state.iofPercentage === 1.1 ? "Dinheiro" : "Crédito"}</TcGray1>
+                    <TcGray1 className="small">
+                      IOF
+                      <br />
+                      {state.iofPercentage === 1.1 ? "Dinheiro" : "Crédito"}
+                    </TcGray1>
                   </div>
                 </div>
               </BottomDetail>
@@ -147,6 +137,8 @@ const ResultSection = props => {
     );
   } else return null;
 };
+
+// STYLED-COMPONENTS
 
 const StyledResultSection = styled.section`
   background-color: #fcfbce; /* baby yellow */
@@ -294,7 +286,7 @@ const BottomDetail = styled.div`
     background-color: var(--gray-lighter);
     width: 1px;
     height: 100%;
-    margin: 0 .1rem;
+    margin: 0 0.1rem;
   }
 `;
 

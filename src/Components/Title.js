@@ -1,6 +1,8 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
 import { ReactComponent as GreenTriangle } from "../assets/greenTriangle.svg";
+
+// RENDER COMPONENT
 
 const Title = () => {
   return (
@@ -11,6 +13,8 @@ const Title = () => {
     </StyledTitle>
   );
 };
+
+// STYLED-COMPONENTS
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -49,4 +53,4 @@ const StyledGreenTriangle = styled(GreenTriangle)`
   }
 `;
 
-export default Title
+export default Title;

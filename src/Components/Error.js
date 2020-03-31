@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
-import {
-  TwRegular,
-  TwSemibold,
-} from "./TypographyHelpers";
+import { TwRegular, TwSemibold } from "./TypographyHelpers";
+
+// RENDER COMPONENT
 
 const Error = () => {
   return (

@@ -35,7 +35,6 @@ const useFetcher = url => {
       .catch((error, state) => {
         setState({error: error, isLoading: false})
       })
-
   }, [])
 
 }

@@ -1,12 +1,17 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
+// RENDER COMPONENT
 
 const Button = props => {
   return (
-    <StyledButton value="submit" type="submit" disabled={props.disabled}>{props.content}</StyledButton>
-  )
-}
+    <StyledButton value="submit" type="submit" disabled={props.disabled}>
+      {props.content}
+    </StyledButton>
+  );
+};
+
+// STYLED-COMPONENT
 
 const StyledButton = styled.button`
   background-color: #00c853;

@@ -1,22 +1,25 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import {Context} from "../contexts/Context";
+import { Context } from "../contexts/Context";
+
+// RENDER COMPONENT
 
 const Credits = props => {
-  const [state, setState] = useContext(Context)
+  const [state, setState] = useContext(Context);
 
   if (state.isLoading) return null;
   else {
     return (
       <StyledCredits>
-      <Text>react + material-ui + styled-components</Text>
-      <div className="divider"></div>
-      <Text>
-        ana costa eduardo • <a href="https://github.com/anacoxta">github</a> • <a href="https://glitch.com/@anacoxta">glitch</a> •{" "}
-        <a href="https://linkedin.com/in/anaeduardo">linkedin</a>
-      </Text>
-    </StyledCredits>
-    )}
+        <Text>react + material-ui + styled-components</Text>
+        <div className="divider"></div>
+        <Text>
+          ana costa eduardo • <a href="https://github.com/anacoxta">github</a> • <a href="https://glitch.com/@anacoxta">glitch</a> •{" "}
+          <a href="https://linkedin.com/in/anaeduardo">linkedin</a>
+        </Text>
+      </StyledCredits>
+    );
+  }
 };
 
 // STYLED-COMPONENT
@@ -43,7 +46,8 @@ const Text = styled.p`
   text-align: center;
   margin: 0;
 
-  a, a:visited {
+  a,
+  a:visited {
     text-decoration: none;
     color: white;
   }
@@ -59,7 +63,9 @@ const Text = styled.p`
   }
 
   @media (max-width: 275px) {
-    & { font-size: 0.7rem; }
+    & {
+      font-size: 0.7rem;
+    }
   }
 `;
 

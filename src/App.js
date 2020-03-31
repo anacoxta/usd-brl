@@ -25,9 +25,6 @@ const App = () => {
       </Container>
       <Credits />
     </ContextProvider>
-
-    // {!loading &&
-    //   }
   );
 };
 

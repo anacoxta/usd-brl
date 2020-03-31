@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as LoaderIcon } from "../assets/loader.svg";
 
+// RENDER COMPONENT
+
 const Loader = () => {
   return (
     <Div className="wrapper">
@@ -10,7 +12,7 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+// STYLED-COMPONENTS
 
 const Div = styled.div`
   &.wrapper {
@@ -24,3 +26,5 @@ const Div = styled.div`
 const StyledLoader = styled(LoaderIcon)`
   margin: 0;
 `;
+
+export default Loader;
