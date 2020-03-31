@@ -25,13 +25,13 @@ const StyledCredits = styled.div`
   display: grid;
   grid-template-rows: repeat(3, min-content);
   max-width: 100%;
-  margin: 2rem;
+  margin: 1rem;
   text-align: center;
   .divider {
     width: 100%;
     height: 1px;
     background-color: white;
-    margin: 0.25rem 0;
+    margin: 0.15rem 0;
   }
 `;
 
@@ -41,6 +41,7 @@ const Text = styled.p`
   font-size: 0.8rem;
   letter-spacing: 1px;
   text-align: center;
+  margin: 0;
 
   a, a:visited {
     text-decoration: none;
@@ -51,7 +52,6 @@ const Text = styled.p`
   }
 
   @media (max-width: 645px) {
-    margin: 1rem;
     & {
       letter-spacing: 0;
       font-weight: 400;

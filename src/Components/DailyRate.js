@@ -1,54 +1,41 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Error from "./Error";
-import {Context} from "../contexts/Context";
+import { Context } from "../contexts/Context";
 
 import Tooltip from "@material-ui/core/Tooltip";
-import {
-  TcGray1,
-  // TcAccent,
-  // TcGray2,
-  // TcGray3,
-  // TwRegular,
-  // TwSemibold,
-  // TwBlack,
-  // Ts10,
-  // Ts12,
-  // Ts14,
-  // Ts16,
-  // Ts18,
-  // Ts20,
-  // Ts22,
-  // Ts24,
-  // Ts26,
-  // Ts28,
-  // Ts30,
-  // Ts32,
-} from "./TypographyHelpers";
+import { TcGray1 } from "./TypographyHelpers";
 
 // RENDER COMPONENTS
 
 const DailyRate = props => {
+  // To use with .toLocaleString()
+  // example: num.toLocaleString("pt-BR", numObj)
+  const numObj = {
+    style: "decimal",
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  };
 
-  const [state, setState] = useContext(Context)
+  const [state, setState] = useContext(Context);
 
   if (state.error === false) {
-    return <StyledDailyRate>
-      <Text>
-        <TcGray1>Dólar comercial:</TcGray1>
-        <span>
-          USD <span className="bigger">1 = {state.exchangeRate.toLocaleString()}</span> BRL
-        </span>
-      </Text>
-      <Tooltip title={"Atualizado em " + state.formattedDate} placement="right" arrow>
-        <TooltipButton className="btn-tooltip">?</TooltipButton>
-      </Tooltip>
-    </StyledDailyRate>
-
+    return (
+      <StyledDailyRate>
+        <Text>
+          <TcGray1>Dólar comercial:</TcGray1>
+          <span>
+            USD <span className="bigger">1 = {state.exchangeRate.toLocaleString("pt-BR", numObj)}</span> BRL
+          </span>
+        </Text>
+        <Tooltip title={"Atualizado em " + state.formattedDate} placement="right" arrow>
+          <TooltipButton className="btn-tooltip">?</TooltipButton>
+        </Tooltip>
+      </StyledDailyRate>
+    );
   } else {
-    return <Error />
+    return <Error />;
   }
-
 };
 
 // STYLED-COMPONENTS

@@ -73,7 +73,6 @@ const Form = props => {
       // Converts string values to numerical values & sets global and local states
       if ((s === "valueUSD" || s === "localTaxPercentage") && typeof localState[s] === "string" && localState[s] !== "") {
         if (localState[s].indexOf(",") !== -1) localState[s] = localState[s].replace(",", ".");
-        if (s === "localTaxPercentage" && localState[s] === "") localState[s] = 0;
         localState[s] = parseFloat(localState[s]);
         setLocalState({ [s]: localState[s] });
         s === "valueUSD" ? (valueUSD = localState[s]) : (localTaxPercentage = localState[s]);
@@ -103,6 +102,11 @@ const Form = props => {
 
     // Complex calculations (with taxes)
     else {
+
+      if (localTaxPercentage === undefined || localTaxPercentage === "") {
+        localTaxPercentage = 0;
+      }
+
       let valueBRL = state.exchangeRate * valueUSD;
       let localTaxUSD = valueUSD * (localTaxPercentage / 100);
       let localTaxBRL = localTaxUSD * state.exchangeRate;
@@ -182,7 +186,7 @@ const Form = props => {
             type="text"
             id="localTaxPercentage"
             name="localTaxPercentage"
-            label="Taxas locais sobre a venda"
+            label="Taxas/Impostos adicionais"
             variant="outlined"
             value={localState.localTaxPercentage}
             onChange={handleChange}

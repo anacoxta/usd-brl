@@ -87,7 +87,7 @@ const ResultSection = props => {
                     <TwRegular>US$ </TwRegular>
                     <TwSemibold>{state.localTaxUSD.toLocaleString("pt-BR", numObj)}</TwSemibold>
                   </TcGray3>
-                  <TcGray1 className="small"> taxa local</TcGray1>
+                  <TcGray1 className="small"> taxa adic.</TcGray1>
                 </div>
                 <div>
                   <TcAccent>
@@ -124,7 +124,7 @@ const ResultSection = props => {
                     </TcGray3>
                   </div>
                   <div>
-                    <TcGray1 className="small">imposto<br />local</TcGray1>
+                    <TcGray1 className="small">taxa<br />adic.</TcGray1>
                   </div>
                 </div>
                 <div className="divider"></div>
