@@ -6,6 +6,7 @@ import FormSection from "./components/FormSection";
 import Title from "./components/Title";
 import DailyRate from "./components/DailyRate";
 import Form from "./components/Form";
+import ResultSection from "./components/ResultSection";
 import Credits from "./components/Credits";
 
 import { ContextProvider } from "./contexts/Context";
@@ -18,9 +19,9 @@ const App = () => {
         <FormSection>
           <Title />
           <DailyRate />
-          {/* {state.error ? <Form disabled /> : <Form />} */}
           <Form />
         </FormSection>
+        <ResultSection />
       </Container>
       <Credits />
     </ContextProvider>
