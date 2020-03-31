@@ -4,7 +4,6 @@ import {Context} from "../contexts/Context";
 
 const Credits = props => {
   const [state, setState] = useContext(Context)
-  console.log("state Container:", state);
 
   if (state.isLoading) return null;
   else {

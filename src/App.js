@@ -11,8 +11,6 @@ import Credits from "./components/Credits";
 import { ContextProvider } from "./contexts/Context";
 
 const App = () => {
-  // console.log("isloading",isLoading);
-  // console.log("error",error);
 
   return (
     <ContextProvider>

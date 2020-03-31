@@ -7,7 +7,6 @@ import Loader from "./Loader";
 
 const Container = props => {
   const [state, setState] = useContext(Context)
-  console.log("state Container:", state);
 
   useFetcher("https://economia.awesomeapi.com.br/all/USD-BRL");
 

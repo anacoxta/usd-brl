@@ -31,7 +31,6 @@ import {
 const DailyRate = props => {
 
   const [state, setState] = useContext(Context)
-  console.log("state DailyRate",state);
 
   if (state.error === false) {
     return <StyledDailyRate>
