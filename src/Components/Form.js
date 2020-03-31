@@ -25,7 +25,6 @@ const Form = props => {
   const [state, setState] = useContext(Context);
 
   const handleChange = e => {
-
     // valueUSD
     // ——> Validates input value using regex:
     //     positive numbers with up to two decimal places, separated by a comma
@@ -76,13 +75,13 @@ const Form = props => {
         if (localState[s].indexOf(",") !== -1) localState[s] = localState[s].replace(",", ".");
         if (s === "localTaxPercentage" && localState[s] === "") localState[s] = 0;
         localState[s] = parseFloat(localState[s]);
-        setLocalState({ [s]: localState[s] })
-        s === "valueUSD" ? valueUSD = localState[s] : localTaxPercentage = localState[s]
+        setLocalState({ [s]: localState[s] });
+        s === "valueUSD" ? (valueUSD = localState[s]) : (localTaxPercentage = localState[s]);
       }
       // paymentType:
       // Updates iofPercentage variable
       else if (s === "paymentType") {
-        localState[s] === "cash" ? iofPercentage = 1.1 : iofPercentage = 6.38
+        localState[s] === "cash" ? (iofPercentage = 1.1) : (iofPercentage = 6.38);
       }
     }
 
@@ -101,13 +100,13 @@ const Form = props => {
         valueBRL: valueBRL,
       });
     }
-    
+
     // Complex calculations (with taxes)
     else {
       let valueBRL = state.exchangeRate * valueUSD;
-      let localTaxUSD = valueUSD * (localTaxPercentage/100);
+      let localTaxUSD = valueUSD * (localTaxPercentage / 100);
       let localTaxBRL = localTaxUSD * state.exchangeRate;
-      let iofUSD = (valueUSD + localTaxUSD) * (iofPercentage/100);
+      let iofUSD = (valueUSD + localTaxUSD) * (iofPercentage / 100);
       let iofBRL = iofUSD * state.exchangeRate;
       let totalUSD = valueUSD + localTaxUSD + iofUSD;
       let totalBRL = valueBRL + localTaxBRL + iofBRL;
@@ -125,7 +124,7 @@ const Form = props => {
         iofUSD: iofUSD,
         iofBRL: iofBRL,
         totalUSD: totalUSD,
-        totalBRL: totalBRL
+        totalBRL: totalBRL,
       });
     }
 
@@ -135,8 +134,8 @@ const Form = props => {
       conversionType: "noTax",
       paymentType: "cash",
       localTaxPercentage: "",
-      iofPercentage: "",  
-    })
+      iofPercentage: "",
+    });
   };
 
   console.log("Form → localState:", localState);
@@ -176,36 +175,40 @@ const Form = props => {
 
       <VerticalLine />
 
-      <StyledTextField
-        disabled={typeof state.error === "object"}
-        type="text"
-        id="localTaxPercentage"
-        name="localTaxPercentage"
-        label="Taxas locais sobre a venda"
-        variant="outlined"
-        value={localState.localTaxPercentage}
-        onChange={handleChange}
-        InputProps={{
-          endAdornment: <InputAdornment position="end">%</InputAdornment>,
-        }}
-      />
+      {localState.conversionType === "withTax" && (
+        <>
+          <StyledTextField
+            disabled={typeof state.error === "object"}
+            type="text"
+            id="localTaxPercentage"
+            name="localTaxPercentage"
+            label="Taxas locais sobre a venda"
+            variant="outlined"
+            value={localState.localTaxPercentage}
+            onChange={handleChange}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">%</InputAdornment>,
+            }}
+          />
 
-      <VerticalLine disabled={typeof state.error === "object"} />
+          <VerticalLine disabled={typeof state.error === "object"} />
 
-      <StyledFormControl component="fieldset">
-        <RadioGroup
-          disabled={typeof state.error === "object"}
-          aria-label="Forma de pagamento"
-          id="paymentType"
-          name="paymentType"
-          value={localState.paymentType}
-          onChange={handleChange}>
-          <StyledFormControlLabel id="cash" value="cash" control={<Radio />} label="Dinheiro" />
-          <StyledFormControlLabel id="creditCard" value="creditCard" control={<Radio />} label="Cartão de crédito" />
-        </RadioGroup>
-      </StyledFormControl>
+          <StyledFormControl component="fieldset">
+            <RadioGroup
+              disabled={typeof state.error === "object"}
+              aria-label="Forma de pagamento"
+              id="paymentType"
+              name="paymentType"
+              value={localState.paymentType}
+              onChange={handleChange}>
+              <StyledFormControlLabel id="cash" value="cash" control={<Radio />} label="Dinheiro" />
+              <StyledFormControlLabel id="creditCard" value="creditCard" control={<Radio />} label="Cartão de crédito" />
+            </RadioGroup>
+          </StyledFormControl>
 
-      <VerticalLine />
+          <VerticalLine />
+        </>
+      )}
 
       <Button content="Converter" disabled={typeof state.error === "object"} />
     </StyledForm>
