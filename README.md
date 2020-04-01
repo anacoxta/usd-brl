@@ -26,8 +26,9 @@ Para rodar o projeto em sua máquina, é necessário ter [**Node.js**](https://n
 Para rodar o código localmente...
 1) [Clone](https://help.github.com/pt/github/creating-cloning-and-archiving-repositories/cloning-a-repository) este repositório em sua máquina
 2) Abra a linha de comando e acesse (através dela) a pasta do repositório local
-3) Use o comando **`npm start`** para rodar o aplicativo em modo de desenvolvimento, acessível através do endereço http://localhost:3000 em seu navegador...     
-  ...ou use **`npm run build`** para ~empacotar~ o aplicativo para produção (na pasta _build_).   
+3) Use o comando **`npm install`** para instalar as dependências localmente
+4) Use o comando **`npm start`** para rodar o aplicativo em modo de desenvolvimento, acessível através do endereço http://localhost:3000 em seu navegador...     
+  ...ou use **`npm run build`** para "empacotar" o aplicativo para produção (na pasta _build_).   
 &nbsp;   
 &nbsp;   
    
